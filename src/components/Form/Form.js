@@ -4,10 +4,10 @@ import FileBase from "react-file-base64";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../actions/posts";
-import { clearFormData } from "../../actions/post";
+import { clearFormData, updatePost } from "../../actions/post";
 
 const Form = () => {
-  console.log("form component");
+  // console.log("form component");
   const classes = useStyles();
   const postDataStore = useSelector((state) => state.postData);
 
@@ -19,17 +19,32 @@ const Form = () => {
     selectedFile: "",
   });
   useEffect(() => {
-    setPostData(postDataStore);
+    if (postDataStore) {
+      setPostData(postDataStore);
+    }
   }, [postDataStore]);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    if (postDataStore) {
+      //dispatch for update
+      console.log("updating....");
+      dispatch(updatePost(postData, postDataStore._id));
+    } else {
+      dispatch(createPost(postData));
+    }
   };
   const clear = () => {
     dispatch(clearFormData());
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
 
   return (

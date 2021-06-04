@@ -22,11 +22,10 @@ const Post = ({ post }) => {
   const classes = useStyles();
   const SetCurrentPostData = (post) => {
     //dispatch action
-    // console.log(post);
 
     dispatch(addPostDataToStore(post));
   };
-
+  // console.log(post);
   return (
     <Card className={classes.card}>
       <CardMedia
