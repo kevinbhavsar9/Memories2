@@ -15,9 +15,11 @@ export const clearFormData = (post) => {
 export const updatePost = (post, id) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: "PROGRESS" });
       const { data } = await api.updatePost(post, id);
       console.log(data);
       dispatch({ type: "UPDATE", payload: data });
+      dispatch({ type: "CLEAR_FORM_DATA" });
     } catch (error) {
       console.log(error);
     }

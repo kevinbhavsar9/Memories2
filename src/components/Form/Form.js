@@ -10,6 +10,7 @@ const Form = () => {
   // console.log("form component");
   const classes = useStyles();
   const postDataStore = useSelector((state) => state.postData);
+  const inProgress = useSelector((state) => state.posts.inProgress);
 
   const [postData, setPostData] = useState({
     creator: "",
@@ -18,24 +19,6 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-  useEffect(() => {
-    if (postDataStore) {
-      setPostData(postDataStore);
-    }
-  }, [postDataStore]);
-
-  const dispatch = useDispatch();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (postDataStore) {
-      //dispatch for update
-      console.log("updating....");
-      dispatch(updatePost(postData, postDataStore._id));
-    } else {
-      dispatch(createPost(postData));
-    }
-  };
   const clear = () => {
     dispatch(clearFormData());
     setPostData({
@@ -45,6 +28,28 @@ const Form = () => {
       tags: "",
       selectedFile: "",
     });
+  };
+
+  useEffect(() => {
+    if (postDataStore) {
+      setPostData(postDataStore);
+    }
+  }, [postDataStore]);
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (postDataStore) {
+      //dispatch for update
+      console.log("updating....");
+      await dispatch(updatePost(postData, postDataStore._id));
+      clear();
+    } else {
+      console.log(postData);
+      await dispatch(createPost(postData));
+      clear();
+    }
   };
 
   return (
@@ -101,17 +106,31 @@ const Form = () => {
             }
           />
         </div>
+        {inProgress ? (
+          <Button
+            className={classes.buttonSubmit}
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            fullWidth
+            disabled
+          >
+            Submiting...
+          </Button>
+        ) : (
+          <Button
+            className={classes.buttonSubmit}
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            fullWidth
+          >
+            Submit
+          </Button>
+        )}
 
-        <Button
-          className={classes.buttonSubmit}
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
-          fullWidth
-        >
-          Submit
-        </Button>
         <Button
           variant="contained"
           color="secondary"

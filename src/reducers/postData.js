@@ -4,6 +4,7 @@ const initialState = {
   message: "",
   tags: "",
   selectedFile: "",
+  inProgress: false,
   _id: 0,
 };
 
