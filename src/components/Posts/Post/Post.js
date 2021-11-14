@@ -74,7 +74,7 @@ const Post = ({ post }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button
+        {/* <Button
           size="small"
           color="primary"
           onClick={
@@ -83,7 +83,7 @@ const Post = ({ post }) => {
           }
         >
           <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}{" "}
-        </Button>
+        </Button> */}
         <Button
           size="small"
           color="primary"
